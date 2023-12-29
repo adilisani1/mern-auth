@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const userRouter = require('./routes/userRouter');
+const authRouter = require('./routes/authRouter');
 
 dotenv.config()
 const port = 3000;
@@ -18,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 })
 
 app.use("/api/user", userRouter)
-
+app.use("/api/auth", authRouter)
 
 
 
