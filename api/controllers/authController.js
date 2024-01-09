@@ -1,4 +1,5 @@
 
+const errorHandler = require('../utils/error');
 const User = require('./../models/userModal');
 
 const signup = async (req, res, next) => {
@@ -13,7 +14,7 @@ const signup = async (req, res, next) => {
         res.status(201).json({ message: "User created successfully" })
     }
     catch (error) {
-        next(error)
+        next(errorHandler(500, 'Something went wrong'))
     }
 }
 
