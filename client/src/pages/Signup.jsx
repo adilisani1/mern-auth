@@ -23,7 +23,7 @@ const SignUp = () => {
 
         try {
             setLoading(true)
-            const res = await fetch('http://localhost:3000/api/auth/signup', {
+            const res = await fetch('/api/auth/signup', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -34,7 +34,10 @@ const SignUp = () => {
             const data = await res.json();
             console.log(data);
             setLoading(false)
-            setError(false)
+            if (data.success === false) {
+                setError(true);
+                return;
+            }
         }
 
         catch (error) {
@@ -78,8 +81,8 @@ const SignUp = () => {
                 <Link to="/sign-in">
                     <span className=' text-blue-500 '>Sign in</span>
                 </Link>
-
             </div>
+            <p className=' text-red-700 mt-5'>{error && 'Something went wrong!'}</p>
         </div>
     )
 }
