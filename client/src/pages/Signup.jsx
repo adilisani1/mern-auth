@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInStart, signInSuccess, signInFailed } from '../redux/user/userSlice';
 import { useSelector, useDispatch } from 'react-redux'
+import OAuth from './../components/OAuth';
 const SignUp = () => {
     const navigate = useNavigate();
     const { loading, error } = useSelector(state => state.user)
@@ -82,6 +83,7 @@ const SignUp = () => {
                 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
                 >{loading ? 'Loading...' : 'Sign up'}
                 </button>
+                <OAuth />
             </form>
             <div className='flex items-center gap-2 justify-center mt-5 '>
                 <p>Have an account?</p>
