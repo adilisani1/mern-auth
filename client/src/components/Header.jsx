@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
     const { currentUser } = useSelector(state => state.user)
-
     return (
         <div className=' bg-sky-500'>
             <div
@@ -24,16 +23,14 @@ const Header = () => {
                     </Link>
                     <Link to="/profile">
                         <li>
-                            {currentUser ? (
+                            {currentUser?.profilePicture && (
                                 <img
-                                    className=' h-7 w-7 rounded-full object-cover'
+                                    className='h-7 w-7 rounded-full object-cover'
                                     src={currentUser.profilePicture}
-                                    alt='profile' />
-                            )
-                                :
-                                <li>Sign In</li>
+                                    alt='profile'
+                                />
+                            )}
 
-                            }
                         </li>
                     </Link>
                 </ul>
