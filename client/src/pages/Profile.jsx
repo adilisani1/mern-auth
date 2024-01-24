@@ -2,7 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../firebase';
-import { updateUserFailed, updateUserStart, updateUserSuccess } from '../redux/user/userSlice';
+import {
+    deleteUserFailed,
+    deleteUserStart,
+    deleteUserSuccess,
+    updateUserFailed,
+    updateUserStart,
+    updateUserSuccess
+} from '../redux/user/userSlice';
 
 const Profile = () => {
 
@@ -55,6 +62,7 @@ const Profile = () => {
         const updatingUser = { ...formData, [e.target.id]: e.target.value }
         setFormData(updatingUser)
     }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -75,7 +83,25 @@ const Profile = () => {
             setUpdateSuccess(true)
         }
         catch (error) {
+            dispatch(updateUserFailed(error));
+        }
+    }
 
+    const handleDeleteAccount = async () => {
+        try {
+            dispatch(deleteUserStart())
+            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+                method: 'DELETE',
+            });
+            const data = await res.json();
+            if (data.success === false) {
+                dispatch(deleteUserFailed(data))
+                return;
+            }
+            dispatch(deleteUserSuccess(data));
+        }
+        catch (error) {
+            dispatch(deleteUserFailed(error))
         }
     }
 
@@ -144,7 +170,7 @@ const Profile = () => {
                 </button>
             </form>
             <div className='flex justify-between mt-5'>
-                <span className=' text-red-600 cursor-pointer hover:opacity-70'>Delete Account</span>
+                <span onClick={handleDeleteAccount} className=' text-red-600 cursor-pointer hover:opacity-70'>Delete Account</span>
                 <span className=' text-red-600  cursor-pointer  hover:opacity-70'>Sign Out</span>
             </div>
             <p className='text-red-700 mt-5'>

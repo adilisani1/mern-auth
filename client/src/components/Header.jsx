@@ -22,16 +22,17 @@ const Header = () => {
                         <li>About</li>
                     </Link>
                     <Link to="/profile">
-                        <li>
-                            {currentUser?.profilePicture && (
-                                <img
-                                    className='h-7 w-7 rounded-full object-cover'
-                                    src={currentUser.profilePicture}
-                                    alt='profile'
-                                />
-                            )}
+                        {currentUser?.profilePicture ? (
+                            <img
+                                className='h-7 w-7 rounded-full object-cover'
+                                src={currentUser.profilePicture}
+                                alt='profile'
+                            />)
+                            : (
+                                <li>Sign In</li>
+                            )
+                        }
 
-                        </li>
                     </Link>
                 </ul>
             </div>
