@@ -3,7 +3,8 @@ const errorHandler = require('../utils/error');
 const User = require('./../models/userModal');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// @desc    Register a new user
+
+// Register a new user
 const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -21,15 +22,17 @@ const signup = async (req, res, next) => {
     }
 };
 
-// @desc    Authenticate an existing user
+// Authenticate an existing user
 const signin = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
         const validUser = await User.findOne({ email });
         if (!validUser) return next(errorHandler(404, 'User not found'));
+        // Checking the password
         const isValidPass = bcrypt.compareSync(password, validUser.password);
         if (!isValidPass) return next(errorHandler(401, 'Wrong credentials'));
+
         let token = jwt.sign({ id: validUser._id }, process.env.JWT_SECERET)
 
         const { password: hashedPassword, ...rest } = validUser._doc
@@ -47,7 +50,8 @@ const signin = async (req, res, next) => {
         next(error)
     }
 };
-//For google Authentication
+
+//google Authentication
 const google = async (req, res, next) => {
     // const { email} = req.body;
     try {
