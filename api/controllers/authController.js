@@ -102,11 +102,16 @@ const google = async (req, res, next) => {
     }
 }
 
+const signOut = (req, res, next) => {
+    res.status(200).clearCookie('access_token').send('Signout success')
+}
+
 
 module.exports = {
     signup,
     signin,
-    google
+    google,
+    signOut
 };
 
 
